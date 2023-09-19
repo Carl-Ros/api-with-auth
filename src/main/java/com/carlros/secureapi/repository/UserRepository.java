@@ -1,5 +1,6 @@
-package com.carlros.secureapi.user;
+package com.carlros.secureapi.repository;
 
+import com.carlros.secureapi.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

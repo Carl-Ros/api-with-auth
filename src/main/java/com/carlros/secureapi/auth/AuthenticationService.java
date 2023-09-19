@@ -1,8 +1,8 @@
 package com.carlros.secureapi.auth;
 
-import com.carlros.secureapi.user.Role;
-import com.carlros.secureapi.user.User;
-import com.carlros.secureapi.user.UserRepository;
+import com.carlros.secureapi.model.Role;
+import com.carlros.secureapi.model.User;
+import com.carlros.secureapi.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -34,16 +34,12 @@ public class AuthenticationService {
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            request.getEmail(),
-                            request.getPassword()
-                    )
-            );
-        } catch (Exception e){
-            System.out.println(e);
-        }
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getEmail(),
+                        request.getPassword()
+                )
+        );
 
         var user = repository.findByEmail(request.getEmail()).orElseThrow();
 

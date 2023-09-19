@@ -1,4 +1,4 @@
-package com.carlros.secureapi.user;
+package com.carlros.secureapi.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

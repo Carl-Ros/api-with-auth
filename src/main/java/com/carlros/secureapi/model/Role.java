@@ -1,4 +1,4 @@
-package com.carlros.secureapi.user;
+package com.carlros.secureapi.model;
 
 public enum Role {
     USER,

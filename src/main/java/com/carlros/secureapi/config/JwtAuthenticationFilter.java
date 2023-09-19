@@ -1,7 +1,7 @@
 package com.carlros.secureapi.config;
 
 import com.carlros.secureapi.auth.JwtService;
-import com.carlros.secureapi.user.User;
+import com.carlros.secureapi.model.User;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
