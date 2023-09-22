@@ -1,5 +1,6 @@
 package com.carlros.secureapi.auth;
 
+import com.carlros.secureapi.exception.NonUniqueIdentifierException;
 import com.carlros.secureapi.model.Role;
 import com.carlros.secureapi.model.User;
 import com.carlros.secureapi.repository.UserRepository;
@@ -20,6 +21,11 @@ public class AuthenticationService {
     private final AuthenticationManager authenticationManager;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        var existingUser = repository.findByEmail(request.getEmail());
+        if(existingUser.isPresent()){
+            throw new NonUniqueIdentifierException("Email is already in use.");
+        }
+
         var user = User.builder()
                 .firstname(request.getFirstname())
                 .lastname(request.getLastname())
