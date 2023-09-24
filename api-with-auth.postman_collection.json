@@ -1,0 +1,283 @@
+{
+	"info": {
+		"_postman_id": "0249eae4-5e5d-4905-a7d5-fc5e0d491a92",
+		"name": "api-with-auth",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28709200"
+	},
+	"item": [
+		{
+			"name": "Appointments",
+			"item": [
+				{
+					"name": "Appointments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/appointments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Appointments/{id}",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/appointments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Appointments/{id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/appointments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Appointments/{id}",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dateTime\" : \"2023-10-28T06:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/appointments/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"appointments",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Appointments",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"dateTime\" : \"2023-09-22T06:00:00\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/appointments",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"appointments"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Authenticate",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"example_user@example.com\",\r\n    \"password\": \"example_password_123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/authenticate",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"authenticate"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"example_user@example.com\",\r\n    \"password\": \"example_password_123!\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/auth/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"auth",
+								"register"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{jwt}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"if(!pm.collectionVariables.get(\"user\")){",
+					"    pm.collectionVariables.set(\"user\", \"example_user@example.com\")",
+					"}",
+					"",
+					"if(!pm.collectionVariables.get(\"password\")){",
+					"    pm.collectionVariables.set(\"password\", \"example_password_123!\")",
+					"}",
+					"",
+					"const user = pm.collectionVariables.get(\"user\");",
+					"const password = pm.collectionVariables.get(\"password\");",
+					"",
+					"const request1 = {",
+					"        url: \"http://localhost:8080/api/v1/auth/authenticate\",",
+					"        method: \"POST\",",
+					"        header: {\"Content-Type\": \"application/json\"},",
+					"        body: {",
+					"            mode: \"raw\",",
+					"            raw: JSON.stringify({email: user, password: password})",
+					"        }",
+					"};",
+					"",
+					"sendAuthRequest(request1);",
+					"",
+					"const jwt = pm.collectionVariables.get(\"jwt\");",
+					"",
+					"if( jwt && jwt !== \"\"){",
+					"    return;",
+					"}",
+					"",
+					"const request2 = {...request1, url: \"http://localhost:8080/api/v1/auth/register\"};",
+					"",
+					"sendAuthRequest(request2);",
+					"",
+					"function sendAuthRequest(request) {",
+					"    pm.sendRequest(request, function (err, response) {",
+					"        if(response.status === \"OK\"){",
+					"            pm.collectionVariables.set(\"jwt\", response.json().token);",
+					"        } else {",
+					"            pm.collectionVariables.set(\"jwt\", \"\");",
+					"        }",
+					"    });",
+					"}",
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
