@@ -3,6 +3,8 @@ package com.carlros.secureapi.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,7 +18,8 @@ import java.time.LocalDateTime;
 @Data
 public class Appointment implements RemainingTimeTracker {
     private @Id @GeneratedValue Long id;
-    private LocalDateTime dateTime;
+    private @NotNull LocalDateTime dateTime;
+    private @NotNull @Min(1) String name;
 
     @Override
     public long getRemainingDays() {
