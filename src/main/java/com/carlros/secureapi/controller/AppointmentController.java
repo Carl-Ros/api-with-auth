@@ -26,7 +26,7 @@ public class AppointmentController {
         service.create(appointment);
     }
 
-    @PutMapping("/appointments/{id}")
+    @PatchMapping("/appointments/{id}")
     public void update(@PathVariable Long id, @RequestBody Appointment appointment) {
         service.update(id, appointment);
     }
