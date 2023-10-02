@@ -5,15 +5,13 @@ import ContentPage from "./components/ContentPage";
 import React, { useState, useEffect } from "react";
 
 function App() {
-    const [bearerToken, setBearerToken] = useState("");
+    const [bearerToken, setBearerToken] = useState(null);
 
     function login(username, password) {
         loginOrRegister(false, username, password)
         .then((result) => {
             if(result.ok){
-                result.json().then(json => {
-                    setBearerToken(json);
-                })
+                result.json().then(storeToken)
             }
         })
         .catch(err => console.log("Failed to obtain access token: ", err));
@@ -23,9 +21,7 @@ function App() {
         loginOrRegister(true, username, password)
         .then((result) => {
             if(result.ok){
-                result.json().then(json => {
-                    setBearerToken(json);
-                })
+                result.json().then(storeToken)
             }
         })
         .catch(err => console.log("Failed to register: ", err))
@@ -43,8 +39,28 @@ function App() {
         })
     }
 
+    function storeToken(json) {
+            const token = json?.token;
+            if(token){
+                setBearerToken(token);
+                localStorage.setItem('bearerToken', token);
+            }
+    }
+
+    function isTokenExpired(jwt){
+        return jwt && Date.now() >= JSON.parse(atob(jwt.split('.')[1])).exp * 1000;
+    }
+
     useEffect(() => {
-        console.log(bearerToken);
+        const jwt = bearerToken || localStorage.getItem("bearerToken");
+
+        if(jwt && !isTokenExpired(jwt)){
+            setBearerToken(jwt);
+        } else {
+            localStorage.removeItem("bearerToken");
+            setBearerToken("");
+        }
+        
     }, [bearerToken])
 
     return (
