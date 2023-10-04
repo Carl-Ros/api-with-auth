@@ -1,2 +1,2 @@
 # api-with-auth
-Personal project to learn spring-boot with security, JPA (hibernate) 
+Personal project - Fullstack app to learn spring-boot with security (jwt), JPA (hibernate), React
