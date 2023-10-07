@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface AppointmentRepository extends JpaRepository<Appointment, Long> {
     List<Appointment> findAllByWorkspaceId(Long workspaceId);
-    Optional<Appointment> findByIdAndWorkspaceId(Long workspaceId, Long id);
+    Optional<Appointment> findByIdAndWorkspaceId(Long id, Long workspaceId);
 }
