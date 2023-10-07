@@ -18,7 +18,7 @@ public class AppointmentService {
         return repository.findAllByWorkspaceId(workspaceId);
     }
 
-    public Appointment one(Long id, Long workspaceId) {
+    public Appointment one(Long workspaceId, Long id) {
         return repository.findByIdAndWorkspaceId(id, workspaceId).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Appointment with id %s does not exist.", id))
         );
