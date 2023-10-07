@@ -3,6 +3,7 @@ package com.carlros.secureapi.model;
 import jakarta.persistence.Entity;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -12,10 +13,11 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Data
 @EqualsAndHashCode(callSuper = true)
-@NoArgsConstructor
 public class ConsumableItem extends Todo implements RemainingTimeTracker {
     private @NotNull @Min(0) Double quantity;
     private Instant whenMutated;
