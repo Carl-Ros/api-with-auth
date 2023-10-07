@@ -46,7 +46,4 @@ public class AppointmentService {
         repository.deleteById(id);
     }
 
-    public void deleteAll(Long workspaceId){
-        all(workspaceId).forEach((entry) -> delete(entry.getId()));
-    }
 }
