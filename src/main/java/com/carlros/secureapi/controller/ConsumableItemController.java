@@ -1,40 +1,43 @@
 package com.carlros.secureapi.controller;
 
 import com.carlros.secureapi.model.ConsumableItem;
+import com.carlros.secureapi.model.Workspace;
 import com.carlros.secureapi.service.ConsumableItemService;
+import com.carlros.secureapi.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
-import java.util.List;
-
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class ConsumableItemController {
-    private final ConsumableItemService service;
+    private final ConsumableItemService consumableService;
+    private final WorkspaceService workspaceService;
 
-    @GetMapping("/consumables")
-    public List<ConsumableItem> readAll(){
-        return service.all();
+    @GetMapping("/workspaces/{workspaceId}/consumables")
+    public List<ConsumableItem> readAll(@PathVariable Long workspaceId) {
+        return consumableService.all(workspaceId);
     }
 
-    @GetMapping("/consumables/{id}")
-    public ConsumableItem readOne(@PathVariable  Long id){
-        return service.one(id);
+    @GetMapping("/workspaces/{workspaceId}/consumables/{id}")
+    public ConsumableItem readOne(@PathVariable Long workspaceId, @PathVariable Long id) {
+        return consumableService.one(workspaceId, id);
     }
 
-    @PostMapping("/consumables")
-    public void create(@RequestBody ConsumableItem consumableItem){
-        service.create(consumableItem);
+    @PostMapping("/workspaces/{workspaceId}/consumables")
+    public void create(@PathVariable Long workspaceId, @RequestBody ConsumableItem consumable){
+        Workspace workspace = workspaceService.one(workspaceId);
+        consumableService.create(workspace, consumable);
     }
 
-    @PatchMapping("/consumables/{id}")
-    public void update(@PathVariable Long id, @RequestBody ConsumableItem consumableItem){
-        service.update(id, consumableItem);
+    @PatchMapping("/workspaces/{workspaceId}/consumables/{id}")
+    public void update(@PathVariable Long workspaceId, @PathVariable Long id,@RequestBody ConsumableItem consumable) {
+        consumableService.update(workspaceId, id, consumable);
     }
 
-    @DeleteMapping("/consumables/{id}")
+    @DeleteMapping("/workspaces/{workspaceId}/consumables/{id}")
     public void delete(@PathVariable Long id){
-        service.delete(id);
+        consumableService.delete(id);
     }
-
 }

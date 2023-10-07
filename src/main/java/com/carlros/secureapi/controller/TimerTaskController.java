@@ -1,7 +1,9 @@
 package com.carlros.secureapi.controller;
 
 import com.carlros.secureapi.model.TimerTask;
+import com.carlros.secureapi.model.Workspace;
 import com.carlros.secureapi.service.TimerTaskService;
+import com.carlros.secureapi.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -10,33 +12,32 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class TimerTaskController {
-    private final TimerTaskService service;
+    private final TimerTaskService timerTaskService;
+    private final WorkspaceService workspaceService;
 
-    @GetMapping("/timers")
-    public List<TimerTask> readAll(){
-        return service.all();
+    @GetMapping("/workspaces/{workspaceId}/timers")
+    public List<TimerTask> readAll(@PathVariable Long workspaceId) {
+        return timerTaskService.all(workspaceId);
     }
 
-    @GetMapping("/timers/{id}")
-    public TimerTask readOne(@PathVariable  Long id){
-        return service.one(id);
+    @GetMapping("/workspaces/{workspaceId}/timers/{id}")
+    public TimerTask readOne(@PathVariable Long workspaceId, @PathVariable Long id) {
+        return timerTaskService.one(workspaceId, id);
     }
 
-    @PostMapping("/timers")
-    public void create(@RequestBody TimerTask timerTask){
-        service.create(timerTask);
+    @PostMapping("/workspaces/{workspaceId}/timers")
+    public void create(@PathVariable Long workspaceId, @RequestBody TimerTask timerTask){
+        Workspace workspace = workspaceService.one(workspaceId);
+        timerTaskService.create(workspace, timerTask);
     }
 
-    @PatchMapping("/timers/{id}")
-    public void update(@PathVariable Long id, @RequestBody TimerTask timerTask){
-        service.update(id, timerTask);
+    @PatchMapping("/workspaces/{workspaceId}/timers/{id}")
+    public void update(@PathVariable Long workspaceId, @PathVariable Long id,@RequestBody TimerTask timerTask) {
+        timerTaskService.update(workspaceId, id, timerTask);
     }
 
-    @DeleteMapping("/timers/{id}")
+    @DeleteMapping("/workspaces/{workspaceId}/timers/{id}")
     public void delete(@PathVariable Long id){
-        service.delete(id);
+        timerTaskService.delete(id);
     }
-    
-    
-
 }
