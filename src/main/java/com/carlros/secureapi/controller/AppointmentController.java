@@ -40,10 +40,4 @@ public class AppointmentController {
     public void delete(@PathVariable Long id){
         appointmentService.delete(id);
     }
-
-    @DeleteMapping("/workspaces/{workspaceId}/appointments")
-    public void deleteAll(@PathVariable Long workspaceId){
-        appointmentService.deleteAll(workspaceId);
-    }
-
 }
