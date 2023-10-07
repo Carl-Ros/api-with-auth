@@ -3,6 +3,7 @@ package com.carlros.secureapi.controller;
 import com.carlros.secureapi.model.Workspace;
 import com.carlros.secureapi.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,8 +24,9 @@ public class WorkspaceController {
     }
 
     @PostMapping("/workspaces")
-    public void create(@RequestBody Workspace workspace) {
-        service.create(workspace);
+    @ResponseStatus(HttpStatus.CREATED)
+    public Workspace create(@RequestBody Workspace workspace) {
+        return service.create(workspace);
     }
 
     @PatchMapping("/workspaces/{id}")

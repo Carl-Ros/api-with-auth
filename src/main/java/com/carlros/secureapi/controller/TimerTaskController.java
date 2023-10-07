@@ -5,6 +5,7 @@ import com.carlros.secureapi.model.Workspace;
 import com.carlros.secureapi.service.TimerTaskService;
 import com.carlros.secureapi.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +27,10 @@ public class TimerTaskController {
     }
 
     @PostMapping("/workspaces/{workspaceId}/timers")
-    public void create(@PathVariable Long workspaceId, @RequestBody TimerTask timerTask){
+    @ResponseStatus(HttpStatus.CREATED)
+    public TimerTask create(@PathVariable Long workspaceId, @RequestBody TimerTask timerTask){
         Workspace workspace = workspaceService.one(workspaceId);
-        timerTaskService.create(workspace, timerTask);
+        return timerTaskService.create(workspace, timerTask);
     }
 
     @PatchMapping("/workspaces/{workspaceId}/timers/{id}")

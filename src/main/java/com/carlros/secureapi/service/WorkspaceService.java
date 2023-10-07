@@ -21,8 +21,8 @@ public class WorkspaceService {
         return repository.findAll();
     }
 
-    public void create(Workspace workspace) {
-        repository.save(workspace);
+    public Workspace create(Workspace workspace) {
+        return repository.save(workspace);
     }
 
     public void update(Long id, Workspace workspace) {

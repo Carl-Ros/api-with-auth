@@ -24,9 +24,9 @@ public class TimerTaskService {
         );
     }
 
-    public void create(Workspace workspace, TimerTask timerTask) {
+    public TimerTask create(Workspace workspace, TimerTask timerTask) {
         timerTask.setWorkspace(workspace);
-        repository.save(timerTask);
+        return repository.save(timerTask);
     }
     public void update(Long workspaceId, Long id, TimerTask timerTask){
         TimerTask entry = one(workspaceId, id);

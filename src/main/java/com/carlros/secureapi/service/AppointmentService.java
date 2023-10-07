@@ -24,9 +24,9 @@ public class AppointmentService {
         );
     }
 
-    public void create(Workspace workspace, Appointment appointment) {
+    public Appointment create(Workspace workspace, Appointment appointment) {
         appointment.setWorkspace(workspace);
-        repository.save(appointment);
+        return repository.save(appointment);
     }
 
     public void update(Long workspaceId, Long id, Appointment appointment) {

@@ -5,6 +5,7 @@ import com.carlros.secureapi.model.Workspace;
 import com.carlros.secureapi.service.ConsumableItemService;
 import com.carlros.secureapi.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +27,10 @@ public class ConsumableItemController {
     }
 
     @PostMapping("/workspaces/{workspaceId}/consumables")
-    public void create(@PathVariable Long workspaceId, @RequestBody ConsumableItem consumable){
+    @ResponseStatus(HttpStatus.CREATED)
+    public ConsumableItem create(@PathVariable Long workspaceId, @RequestBody ConsumableItem consumable){
         Workspace workspace = workspaceService.one(workspaceId);
-        consumableService.create(workspace, consumable);
+        return consumableService.create(workspace, consumable);
     }
 
     @PatchMapping("/workspaces/{workspaceId}/consumables/{id}")

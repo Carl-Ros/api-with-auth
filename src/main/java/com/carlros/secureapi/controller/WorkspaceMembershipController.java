@@ -51,4 +51,13 @@ public class WorkspaceMembershipController {
         return membershipService.userWorkspaces(userId);
     }
 
+    @PostMapping("/users/{userId}/workspaces")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Workspace createUserWorkspace(@PathVariable Long userId, @RequestBody Workspace workspace){
+        User user = userService.one(userId);
+        workspaceService.create(workspace);
+        membershipService.addMember(workspace, user);
+        return workspace;
+    }
+
 }

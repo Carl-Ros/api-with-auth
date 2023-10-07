@@ -5,6 +5,7 @@ import com.carlros.secureapi.model.Workspace;
 import com.carlros.secureapi.service.AppointmentService;
 import com.carlros.secureapi.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,9 +27,10 @@ public class AppointmentController {
     }
 
     @PostMapping("/workspaces/{workspaceId}/appointments")
-    public void create(@PathVariable Long workspaceId, @RequestBody Appointment appointment){
+    @ResponseStatus(HttpStatus.CREATED)
+    public Appointment create(@PathVariable Long workspaceId, @RequestBody Appointment appointment){
         Workspace workspace = workspaceService.one(workspaceId);
-        appointmentService.create(workspace, appointment);
+        return appointmentService.create(workspace, appointment);
     }
 
     @PatchMapping("/workspaces/{workspaceId}/appointments/{id}")

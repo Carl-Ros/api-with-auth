@@ -24,9 +24,9 @@ public class ConsumableItemService {
         );
     }
 
-    public void create(Workspace workspace, ConsumableItem consumable) {
+    public ConsumableItem create(Workspace workspace, ConsumableItem consumable) {
         consumable.setWorkspace(workspace);
-        repository.save(consumable);
+        return repository.save(consumable);
     }
     
     public void update(Long workspaceId, Long id, ConsumableItem consumableItem){
