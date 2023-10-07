@@ -26,16 +26,17 @@ class TimerTaskServiceTest {
         TimerTask timerTask = new TimerTask();
         timerTask.setId(id);
         timerTask.setDurationInDays(7L);
+        Long workspaceId = 1L;
 
-        when(repository.findById(timerTask.getId())).thenReturn(Optional.of(timerTask));
+        when(repository.findByIdAndWorkspaceId(timerTask.getId(), workspaceId)).thenReturn(Optional.of(timerTask));
 
         TimerTask updateTimerTask = new TimerTask();
 
         updateTimerTask.setDurationInDays(7L);
-        service.update(id, updateTimerTask);
+        service.update(workspaceId, id, updateTimerTask);
 
 
-        verify(repository, times(1)).findById(id);
+        verify(repository, times(1)).findByIdAndWorkspaceId(id, workspaceId);
         verify(repository, times(1)).save(timerTask);
 
         assertEquals(7L, timerTask.getDurationInDays());

@@ -31,15 +31,16 @@ class AppointmentServiceTest {
         Appointment appointment = new Appointment();
         appointment.setId(id);
         appointment.setDateTime(LocalDateTime.parse("2023-01-01T00:00:00"));
+        Long workspaceId = 1L;
 
-        when(repository.findById(appointment.getId())).thenReturn(Optional.of(appointment));
+        when(repository.findByIdAndWorkspaceId(appointment.getId(), workspaceId)).thenReturn(Optional.of(appointment));
 
         Appointment updateAppointment = new Appointment();
         updateAppointment.setDateTime(LocalDateTime.parse("2023-02-01T00:00:00"));
 
-        service.update(id, updateAppointment);
+        service.update(1L, id, updateAppointment);
 
-        verify(repository, times(1)).findById(id);
+        verify(repository, times(1)).findByIdAndWorkspaceId(id, workspaceId);
         verify(repository, times(1)).save(appointment);
 
         assertEquals(LocalDateTime.parse("2023-02-01T00:00:00"), appointment.getDateTime());
