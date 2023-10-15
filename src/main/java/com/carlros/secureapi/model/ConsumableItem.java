@@ -1,31 +1,33 @@
 package com.carlros.secureapi.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.time.*;
+import java.time.DayOfWeek;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Data
-@NoArgsConstructor
-public class ConsumableItem implements RemainingTimeTracker {
-    private @Id @GeneratedValue Long id;
+@EqualsAndHashCode(callSuper = true)
+public class ConsumableItem extends Todo implements RemainingTimeTracker {
     private @NotNull @Min(0) Double quantity;
     private Instant whenMutated;
     private @NotNull @Min(0) Double dailyConsumptionRate;
-    private @NotNull @NotEmpty String name;
 
     public ConsumableItem(Double quantity, Double dailyConsumptionRate, String name){
         updateWhenMutated();
         this.quantity = quantity;
         this.dailyConsumptionRate = dailyConsumptionRate;
-        this.name = name;
+        setName(name);
     }
 
     // Weekends are not counted since tracking is tailored towards pre-school items, which are not used during the weekend.

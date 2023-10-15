@@ -2,6 +2,7 @@ package com.carlros.secureapi.service;
 
 import com.carlros.secureapi.exception.EntityNotFoundException;
 import com.carlros.secureapi.model.TimerTask;
+import com.carlros.secureapi.model.Workspace;
 import com.carlros.secureapi.repository.TimerTaskRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,22 +14,22 @@ import java.util.List;
 public class TimerTaskService {
     private final TimerTaskRepository repository;
 
-    public TimerTask one(Long id){
-        return repository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException(String.format("Timer with id %s does not exist.", id))
+    public List<TimerTask> all(Long workspaceId) {
+        return repository.findAllByWorkspaceId(workspaceId);
+    }
+
+    public TimerTask one(Long workspaceId, Long id) {
+        return repository.findByIdAndWorkspaceId(id, workspaceId).orElseThrow(
+                () -> new EntityNotFoundException(String.format("TimerTask with id %s does not exist.", id))
         );
     }
 
-    public List<TimerTask> all(){
-        return repository.findAll();
+    public TimerTask create(Workspace workspace, TimerTask timerTask) {
+        timerTask.setWorkspace(workspace);
+        return repository.save(timerTask);
     }
-
-    public void create(TimerTask timerTask){
-        repository.save(timerTask);
-    }
-
-    public void update(Long id, TimerTask timerTask){
-        TimerTask entry = one(id);
+    public void update(Long workspaceId, Long id, TimerTask timerTask){
+        TimerTask entry = one(workspaceId, id);
 
         if(timerTask.getDurationInDays() != null) {
             entry.setDurationInDays(timerTask.getDurationInDays());
@@ -37,6 +38,8 @@ public class TimerTaskService {
         if(timerTask.getName() != null) {
             entry.setName(timerTask.getName());
         }
+
+        entry.updateInheritedAttributes(timerTask);
 
         repository.save(entry);
     }

@@ -1,31 +1,30 @@
 package com.carlros.secureapi.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 
-@Data
-@Entity
+@AllArgsConstructor
 @NoArgsConstructor
-public class TimerTask implements RemainingTimeTracker {
-    private @Id @GeneratedValue Long id;
+@Entity
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class TimerTask extends Todo implements RemainingTimeTracker {
     private @NotNull @Min(0) Long durationInDays;
     private Instant whenMutated;
-    private @NotNull @NotEmpty String name;
 
     public TimerTask(Long durationInDays, String name){
+        setName(name);
         updateWhenMutated();
         this.durationInDays = durationInDays;
-        this.name = name;
     }
 
     @Override

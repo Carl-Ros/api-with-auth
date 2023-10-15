@@ -1,12 +1,10 @@
 package com.carlros.secureapi.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import java.time.Duration;
@@ -16,10 +14,9 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Entity
 @Data
-public class Appointment implements RemainingTimeTracker {
-    private @Id @GeneratedValue Long id;
+@EqualsAndHashCode(callSuper = true)
+public class Appointment extends Todo implements RemainingTimeTracker {
     private @NotNull LocalDateTime dateTime;
-    private @NotNull @NotEmpty String name;
 
     @Override
     public long getRemainingDays() {

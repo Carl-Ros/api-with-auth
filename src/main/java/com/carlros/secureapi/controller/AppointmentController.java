@@ -1,39 +1,45 @@
 package com.carlros.secureapi.controller;
 
 import com.carlros.secureapi.model.Appointment;
+import com.carlros.secureapi.model.Workspace;
 import com.carlros.secureapi.service.AppointmentService;
+import com.carlros.secureapi.service.WorkspaceService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
 public class AppointmentController {
-    private final AppointmentService service;
+    private final AppointmentService appointmentService;
+    private final WorkspaceService workspaceService;
 
-    @GetMapping("/appointments")
-    public List<Appointment> readAll() {
-        return service.all();
+    @GetMapping("/workspaces/{workspaceId}/appointments")
+    public List<Appointment> readAll(@PathVariable Long workspaceId) {
+        return appointmentService.all(workspaceId);
     }
 
-    @GetMapping("/appointments/{id}")
-    public Appointment readOne(@PathVariable Long id) {
-        return service.one(id);
+    @GetMapping("/workspaces/{workspaceId}/appointments/{id}")
+    public Appointment readOne(@PathVariable Long workspaceId, @PathVariable Long id) {
+        return appointmentService.one(workspaceId, id);
     }
 
-    @PostMapping("/appointments")
-    public void create(@RequestBody Appointment appointment){
-        service.create(appointment);
+    @PostMapping("/workspaces/{workspaceId}/appointments")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Appointment create(@PathVariable Long workspaceId, @RequestBody Appointment appointment){
+        Workspace workspace = workspaceService.one(workspaceId);
+        return appointmentService.create(workspace, appointment);
     }
 
-    @PatchMapping("/appointments/{id}")
-    public void update(@PathVariable Long id, @RequestBody Appointment appointment) {
-        service.update(id, appointment);
+    @PatchMapping("/workspaces/{workspaceId}/appointments/{id}")
+    public void update(@PathVariable Long workspaceId, @PathVariable Long id,@RequestBody Appointment appointment) {
+        appointmentService.update(workspaceId, id, appointment);
     }
 
-    @DeleteMapping("/appointments/{id}")
+    @DeleteMapping("/workspaces/{workspaceId}/appointments/{id}")
     public void delete(@PathVariable Long id){
-        service.delete(id);
+        appointmentService.delete(id);
     }
-
 }

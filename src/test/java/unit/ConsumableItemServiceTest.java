@@ -30,18 +30,19 @@ class ConsumableItemServiceTest {
         consumableItem.setId(id);
         consumableItem.setQuantity(16.5);
         consumableItem.setDailyConsumptionRate(4d);
+        Long workspaceId = 1L;
 
-        when(repository.findById(consumableItem.getId())).thenReturn(Optional.of(consumableItem));
+        when(repository.findByIdAndWorkspaceId(workspaceId, consumableItem.getId())).thenReturn(Optional.of(consumableItem));
 
         ConsumableItem updateConsumableItem = new ConsumableItem();
 
         updateConsumableItem.setQuantity(33d);
-        service.update(id, updateConsumableItem);
+        service.update(workspaceId, id, updateConsumableItem);
 
         updateConsumableItem.setDailyConsumptionRate(8d);
-        service.update(id, updateConsumableItem);
+        service.update(workspaceId, id, updateConsumableItem);
 
-        verify(repository, times(2)).findById(id);
+        verify(repository, times(2)).findByIdAndWorkspaceId(workspaceId, id);
         verify(repository, times(2)).save(consumableItem);
 
         assertEquals(33d, consumableItem.getQuantity());

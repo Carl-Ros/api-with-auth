@@ -2,6 +2,7 @@ package com.carlros.secureapi.service;
 
 import com.carlros.secureapi.exception.EntityNotFoundException;
 import com.carlros.secureapi.model.ConsumableItem;
+import com.carlros.secureapi.model.Workspace;
 import com.carlros.secureapi.repository.ConsumableItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,22 +14,23 @@ import java.util.List;
 public class ConsumableItemService {
     private final ConsumableItemRepository repository;
 
-    public ConsumableItem one(Long id){
-        return repository.findById(id).orElseThrow(
+    public List<ConsumableItem> all(Long workspaceId) {
+        return repository.findAllByWorkspaceId(workspaceId);
+    }
+
+    public ConsumableItem one(Long workspaceId, Long id) {
+        return repository.findByIdAndWorkspaceId(id, workspaceId).orElseThrow(
                 () -> new EntityNotFoundException(String.format("Consumable with id %s does not exist.", id))
         );
     }
 
-    public List<ConsumableItem> all(){
-        return repository.findAll();
+    public ConsumableItem create(Workspace workspace, ConsumableItem consumable) {
+        consumable.setWorkspace(workspace);
+        return repository.save(consumable);
     }
-
-    public void create(ConsumableItem consumableItem){
-        repository.save(consumableItem);
-    }
-
-    public void update(Long id, ConsumableItem consumableItem){
-        ConsumableItem entry = one(id);
+    
+    public void update(Long workspaceId, Long id, ConsumableItem consumableItem){
+        ConsumableItem entry = one(workspaceId, id);
 
         if(consumableItem.getQuantity() != null) {
             entry.setQuantity(consumableItem.getQuantity());
@@ -41,6 +43,8 @@ public class ConsumableItemService {
         if(consumableItem.getName() != null) {
             entry.setName(consumableItem.getName());
         }
+
+        entry.updateInheritedAttributes(consumableItem);
 
         repository.save(entry);
     }
