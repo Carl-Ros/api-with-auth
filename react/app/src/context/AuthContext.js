@@ -48,6 +48,7 @@ export function AuthProvider({children}){
     function _clearToken() {
         localStorage.removeItem("bearerToken");
         setBearerToken("");
+        setUser(null);
     }
 
     function isTokenExpired(jwt) {
