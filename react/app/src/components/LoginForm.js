@@ -10,13 +10,11 @@ function LoginForm({ onLogin, onRegister }) {
 
     function handleLogin(e){
         e.preventDefault();
-        console.log(`onLogin: ${userName}`)
         onLogin(userName, document.getElementById('loginPassword').value);
     }
 
     function handleRegister(e){
         e.preventDefault();
-        console.log(`onRegister: ${userName}`)
         onRegister(userName, document.getElementById('registerPassword').value);
     }    
 
